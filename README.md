@@ -11,7 +11,7 @@ This project was built as a learning exercise to understand browser-based scrapi
 The program navigates Craigslist similarly to how a real user would browse the site.
 
 It allows the user to:
-
+```
 • Select a location or ZIP code
 • Apply filters such as price range, bedrooms, and amenities
 • Browse apartment listings
@@ -19,7 +19,7 @@ It allows the user to:
 • Extract listing details (title, address, description, notes)
 • Save results into a SQLite database
 • Optionally run the scraper on a schedule using a Windows batch script
-
+```
 All scraping is done using a real browser session via Playwright.
 
 ------------------------------------------------------------
@@ -66,24 +66,26 @@ File explanations
 This is the main entry point of the program.
 
 It is responsible for:
+```
 • Initializing the database
 • Starting and stopping the browser
 • Navigating Craigslist
 • Applying filters
 • Triggering the scraping process
-
+```
 ------------------------------------------------------------
 
 ## src/browser.py  
 Handles browser automation.
 
 This file:
+```
 • Starts the Playwright browser
 • Creates browser contexts
 • Opens new pages
 • Adds polite delays to mimic real user behavior
 • Closes browser resources cleanly
-
+```
 Note:
 The browser runs in non-headless mode by default for visual debugging.
 Users may change `headless=False` to `headless=True` if desired.
@@ -94,55 +96,60 @@ Users may change `headless=False` to `headless=True` if desired.
 Automates the Craigslist location selector.
 
 This file:
+```
 • Opens the location modal
 • Types a ZIP code or city
 • Selects the first suggested location
 • Confirms the location choice
-
+```
 ------------------------------------------------------------
 
 ## src/leftPanel.py  
 Collects filter preferences from the user.
 
 This includes:
+```
 • Price range
 • Bedroom range
 • Optional amenities (pets, furnished, accessibility, etc.)
-
+```
 ------------------------------------------------------------
 
 ## src/leftPanelFiller.py  
 Applies the selected filters directly to Craigslist’s UI.
 
 This file:
+```
 • Fills price and bedroom inputs
 • Checks applicable filter boxes
 • Applies the filters before scraping begins
-
+```
 ------------------------------------------------------------
 
 ## src/apt_scraper.py  
 Handles scraping the listing results page.
 
 This file:
+```
 • Locates listing containers
 • Extracts listing URLs
 • Opens listings in new tabs
 • Passes pages to the detailed scraper
 • Saves extracted data to the database
-
+```
 ------------------------------------------------------------
 
 ## src/apt_scraper2.py  
 Extracts detailed information from an individual listing.
 
 This includes:
+```
 • Listing title
 • Street address
 • Description
 • Notes / attributes
 • Listing URL
-
+```
 Timeout handling is used to prevent failures when elements are missing.
 
 ------------------------------------------------------------
@@ -151,11 +158,12 @@ Timeout handling is used to prevent failures when elements are missing.
 Handles data persistence using SQLite.
 
 This file:
+```
 • Creates the listings table if it doesn’t exist
 • Inserts scraped listings
 • Prevents duplicate entries using a UNIQUE link constraint
 • Automatically timestamps each entry
-
+```
 ------------------------------------------------------------
 
 ## Scheduler and batch file
@@ -164,10 +172,11 @@ scheduler.py
 Uses APScheduler to run the scraper at a fixed interval.
 
 This file:
+```
 • Runs the scraper automatically (default: every 1 minute)
 • Logs activity to a scheduler log file
 • Handles errors safely so the scheduler does not crash
-
+```
 ------------------------------------------------------------
 
 ## run_scheduler.bat  
@@ -179,21 +188,30 @@ cd /d "%~dp0"
 This line ensures the script always runs from its own directory, making it portable and safe to use on different machines.
 
 The batch file:
+```
 • Changes to the project directory automatically
 • Launches the Python scheduler
 • Keeps the terminal window open for debugging
-
+```
 ------------------------------------------------------------
 
 ## Installation / Process
 
 Clone the repository:
+```
 git clone https://github.com/YOUR_USERNAME/apartment-finder-scraper.git
+```
+```
 cd apartment-finder-scraper
+```
 
 Install dependencies:
+```
 pip install playwright apscheduler
+```
+```
 playwright install
+```
 
 Run the scraper manually:
 ```
@@ -210,21 +228,21 @@ python scheduler.py
 ------------------------------------------------------------
 
 ## Output
-
+```
 • Apartment listings are saved to a SQLite database (apartments.db)
 • Duplicate listings are ignored automatically
 • Each run appends new listings if available
-
+```
 ------------------------------------------------------------
 
 ## Notes and limitations
-
+```
 • This project uses synchronous browser automation.
 • It is not optimized for large-scale or high-frequency scraping.
 • Craigslist page structure may change over time.
 • Scheduler timing can be adjusted in scheduler.py.
 • Intended for educational and personal use only.
-
+```
 ------------------------------------------------------------
 
 ## License
